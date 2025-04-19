@@ -144,6 +144,25 @@ function switchDM(user) {
     renderDM(user);
 }
 
+function handleDMSubmit() {
+    const text = input.value.trim();
+    if (text) {
+        socket.emit('private_message', { to: user, message: text });
+        addDMMessage(user, `${name}: ${text}`);
+        input.value = '';
+    }
+}
+
+
+// Attach listener ONCE after page loads
+document.getElementById('message').addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        sendMessage();
+    }
+});
+
+
 function renderDM(user) {
     const area = document.getElementById('dm-chat-area');
     area.innerHTML = '';
@@ -158,22 +177,35 @@ function renderDM(user) {
     const inputWrap = document.createElement('div');
     inputWrap.className = 'dm-message-input';
 
-    const input = document.createElement('input');
+    const input = document.createElement('textarea');
+    input.rows = 1;
+    input.placeholder = "Type a message...";
+
     const send = document.createElement('button');
     send.textContent = 'Send';
 
-    send.onclick = () => {
+    function sendDM() {
         const text = input.value.trim();
         if (text) {
             socket.emit('private_message', { to: user, message: text });
             input.value = '';
         }
-    };
+    }
+
+    send.onclick = sendDM;
+
+    input.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            sendDM();
+        }
+    });
 
     inputWrap.appendChild(input);
     inputWrap.appendChild(send);
     area.appendChild(inputWrap);
 }
+
 
 function addDMMessage(user, message) {
     if (!dmSessions[user]) openDM(user);
