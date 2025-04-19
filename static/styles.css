@@ -1,105 +1,170 @@
-/* CYBERPUNK RETRO STYLE */
-body {
-    background-color: #0f0f1a;
-    color: #00ffee;
-    font-family: 'Courier New', monospace;
-    padding: 20px;
-}
-
-h2, h3, h4 {
-    color: #ff00cc;
-    text-shadow: 0 0 5px #ff00cc;
-}
-
-input, button {
-    background-color: #1a1a2e;
-    border: 1px solid #00ffee;
-    color: #00ffee;
-    padding: 5px 10px;
-    margin: 5px;
-    font-family: inherit;
-}
-
-button:hover {
-    background-color: #00ffee;
-    color: #0f0f1a;
-    cursor: pointer;
-}
-
-ul {
-    list-style-type: square;
-    padding-left: 20px;
-}
-
-li {
-    margin-bottom: 5px;
-}
-
+/* Fix layout box alignment */
 #login, #chat {
     border: 1px solid #00ffee;
     padding: 15px;
     margin-top: 15px;
     background-color: rgba(255, 255, 255, 0.02);
+    margin-bottom: 20px; /* add spacing between blocks */
+    border-radius: 5px;
+    max-width: 600px;
 }
 
-#room-list li, #user-list li {
-    border-left: 2px solid #ff00cc;
-    padding-left: 8px;
+/* Align message input and send button in one line */
+#message {
+    width: 75%;
+    display: inline-block;
+    margin-right: 10px;
+    vertical-align: middle;
 }
 
-.dm-window {
-    background-color: rgba(20, 20, 40, 0.9);
-    border: 1px solid #ff00cc;
-    color: #00ffee;
+#chat button {
+    display: inline-block;
+    vertical-align: middle;
+    padding: 6px 12px;
+}
+
+/* Consistent margin between sections */
+h3, h4 {
+    margin-bottom: 8px;
+    margin-top: 16px;
+}
+
+/* Message list spacing */
+#messages {
     padding: 10px;
-    margin-top: 15px;
-    font-size: 14px;
-    box-shadow: 0 0 10px #ff00cc;
-    width: 300px;
-}
-
-.dm-window ul {
-    max-height: 150px;
-    overflow-y: auto;
     margin-bottom: 10px;
     background-color: rgba(255, 255, 255, 0.05);
-    padding: 5px;
     border: 1px dashed #00ffee;
+    border-radius: 3px;
+    max-height: 200px;
+    overflow-y: auto;
 }
 
+/* DM windows */
+.dm-window {
+    margin-bottom: 20px;
+}
+
+/* Remove bullet point for message list if you want cleaner chat style */
+#messages li {
+    list-style: none;
+    margin-bottom: 4px;
+}
+
+
+.dm-window {
+    background-color: rgba(255, 255, 255, 0.25);
+    border: 2px solid #cc66ff;
+    color: #3a006a;
+    padding: 12px;
+    margin: 20px auto;
+    font-size: 14px;
+    box-shadow: 0 0 15px #cc66ff;
+    border-radius: 10px;
+    backdrop-filter: blur(6px);
+    max-width: 500px;
+}
+
+/* Space out the message list */
+.dm-window ul {
+    background-color: rgba(255, 255, 255, 0.15);
+    border: 1px dashed #cc66ff;
+    padding: 8px;
+    margin-bottom: 10px;
+    border-radius: 6px;
+    max-height: 150px;
+    overflow-y: auto;
+    list-style: none;
+}
+
+/* Add some spacing + colors to message bubbles */
+.dm-window ul li {
+    margin-bottom: 6px;
+    padding: 4px 8px;
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 5px;
+    color: #3a006a;
+    font-weight: bold;
+}
+
+/* Clean horizontal layout for input + button */
 .dm-window input {
-    width: 70%;
+    width: calc(100% - 90px);
+    padding: 6px;
+    margin-right: 5px;
+    border-radius: 5px;
+    font-family: inherit;
+    border: 1px solid #cc66ff;
 }
 
 .dm-window button {
-    width: 25%;
+    width: 70px;
+    padding: 6px;
+    font-weight: bold;
+    border-radius: 5px;
+    border: 1px solid #cc66ff;
+    background-color: #ffccf9;
+    color: #3a006a;
 }
 
-::selection {
-    background: #ff00cc;
-    color: #0f0f1a;
+.dm-window button:hover {
+    background-color: #cc66ff;
+    color: white;
 }
 
-a {
-    color: #00ffee;
+@media (max-width: 600px) {
+    .dm-window {
+        width: 90%;
+        padding: 10px;
+    }
+
+    .dm-window input,
+    .dm-window button {
+        width: 100%;
+        margin-bottom: 8px;
+    }
+
+    .dm-window button {
+        width: 100%;
+    }
 }
 
-a:hover {
-    color: #ff00cc;
-}
 
-/* CRT scanline overlay */
-body::before {
-    content: "";
+.particles {
     position: fixed;
     top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: repeating-linear-gradient(
-        to bottom,
-        transparent,
-        rgba(255, 255, 255, 0.01) 1px,
-        transparent 2px
-    );
+    width: 100vw;
+    height: 100vh;
     pointer-events: none;
-    z-index: 9999;
+    overflow: hidden;
+    z-index: 0;
+}
+
+.particles span {
+    position: absolute;
+    bottom: -20px; /* start slightly offscreen */
+    width: 8px;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    animation: float linear infinite;
+}
+
+
+@keyframes float {
+    0% {
+        transform: translateY(110vh) scale(0.5);
+        opacity: 0;
+    }
+    20% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-20vh) scale(1.1);
+        opacity: 0;
+    }
+}
+
+body:not(.lily) .particles {
+    display: none;
 }

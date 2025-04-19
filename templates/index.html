@@ -5,202 +5,46 @@
     <title>Room Chat</title>
     <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='cyberpunk-theme.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='vaporwave-theme.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='lily-theme.css') }}">
 
 </head>
 
 
-<body>
-    <h2>Room Chat</h2>
-    <h3>Active Rooms:</h3>
-    <ul id="room-list"></ul>
+<body class="">
+
+    <div class="container">
+        <button onclick="toggleTheme()" style="float:right;">Toggle Theme</button>
+
+        <h2>Room Chat</h2>
+        <h3>Active Rooms:</h3>
+        <ul id="room-list"></ul>
 
 
-    <div id="login">
-        <input id="name" placeholder="Your name" />
-        <input id="room" placeholder="Room name" />
-        <button onclick="joinRoom()">Join Room</button>
+        <div id="login">
+            <input id="name" placeholder="Your name" />
+            <input id="room" placeholder="Room name" />
+            <button onclick="joinRoom()">Join Room</button>
+        </div>
+
+        <div id="chat" style="display:none">
+            <h3>Chat Room: <span id="room-name"></span></h3>
+            <ul id="messages"></ul>
+
+            <input id="message" placeholder="Type message" />
+            <button onclick="sendMessage()">Send</button>
+
+            <h4>Connected Users:</h4>
+            <ul id="user-list"></ul>
+        </div>
+        
+    <div class="particles"></div>
+    <div class="vaporwave-particles"></div>
+
+
+        <script src="{{ url_for('static', filename='script.js') }}"></script>
     </div>
-
-    <div id="chat" style="display:none">
-        <h3>Chat Room: <span id="room-name"></span></h3>
-        <ul id="messages"></ul>
-
-        <input id="message" placeholder="Type message" />
-        <button onclick="sendMessage()">Send</button>
-
-        <h4>Connected Users:</h4>
-        <ul id="user-list"></ul>
-    </div>
-
-    <script>
-        const socket = io();
-        socket.emit('request_room_list');
-        let name = '';
-        let room = '';
-
-        socket.on('message', function (msg) {
-            const item = document.createElement('li');
-            item.textContent = msg;
-            document.getElementById('messages').appendChild(item);
-        });
-
-        socket.on('user_list', function (users) {
-            const userList = document.getElementById('user-list');
-            userList.innerHTML = '';
-            users.forEach(user => {
-                const li = document.createElement('li');
-                li.textContent = user;
-                li.style.cursor = 'pointer';
-                li.onclick = () => openDM(user);
-                userList.appendChild(li);
-            });
-        });
-
-
-        socket.on('room_list', function (rooms) {
-            const roomList = document.getElementById('room-list');
-            roomList.innerHTML = '';
-
-            for (const room in rooms) {
-                const members = rooms[room];
-                const li = document.createElement('li');
-                li.style.marginBottom = '8px';
-
-                // Make room name clickable
-                const roomName = document.createElement('strong');
-                roomName.textContent = `${room} (${members.length} user${members.length > 1 ? 's' : ''})`;
-                roomName.style.cursor = 'pointer';
-                roomName.onclick = () => quickJoin(room);
-                li.appendChild(roomName);
-
-                // Show member list
-                const memberList = document.createElement('ul');
-                memberList.style.marginTop = '4px';
-                members.forEach(name => {
-                    const userLi = document.createElement('li');
-                    userLi.textContent = name;
-                    memberList.appendChild(userLi);
-                });
-
-                li.appendChild(memberList);
-                roomList.appendChild(li);
-            }
-        });
-
-
-        socket.on('private_message', function (msg) {
-            const { from, to, text } = msg;
-            const otherUser = (from === name) ? to : from;
-
-            openDMWindow(otherUser);  // ensure window exists
-
-            // Wait for DM window to fully exist in DOM
-            setTimeout(() => {
-                const chatList = document.querySelector(`#dm-${otherUser} ul`);
-                if (chatList) {
-                    const li = document.createElement('li');
-                    li.textContent = `${from}: ${text}`;
-                    chatList.appendChild(li);
-                    chatList.scrollTop = chatList.scrollHeight;
-                }
-            }, 50); // small delay to make sure DOM is updated
-        });
-
-
-
-
-
-
-        function joinRoom() {
-            name = document.getElementById('name').value;
-            room = document.getElementById('room').value;
-            if (!name || !room) return;
-
-            socket.emit('join', { name, room });
-
-            document.getElementById('messages').innerHTML = '';  // ← Clear chat
-            document.getElementById('login').style.display = 'none';
-            document.getElementById('chat').style.display = 'block';
-            document.getElementById('room-name').textContent = room;
-        }
-
-        function sendMessage() {
-            const input = document.getElementById('message');
-            const msg = input.value.trim();
-            if (msg) {
-                socket.emit('message', msg);  // ⬅ FIXED LINE
-                input.value = '';
-            }
-        }
-
-        function quickJoin(selectedRoom) {
-            const nameInput = document.getElementById('name');
-            const userName = nameInput.value.trim() || `Guest${Math.floor(Math.random() * 1000)}`;
-
-            document.getElementById('room').value = selectedRoom;
-            nameInput.value = userName;
-
-            name = userName;  // ← This is important
-
-            socket.emit('join', { name: userName, room: selectedRoom });
-
-            document.getElementById('messages').innerHTML = '';
-            document.getElementById('login').style.display = 'none';
-            document.getElementById('chat').style.display = 'block';
-            document.getElementById('room-name').textContent = selectedRoom;
-        }
-
-
-        function openDM(user) {
-            if (user === name) return;  // 🛑 Don't DM yourself
-
-            openDMWindow(user);
-            const text = prompt(`Message to ${user}:`);
-            if (text && text.trim()) {
-                socket.emit('private_message', { to: user, message: text.trim() });
-            }
-        }
-
-
-        function openDMWindow(user) {
-            const id = `dm-${user}`;
-            let existing = document.getElementById(id);
-            if (existing) {
-                return existing.querySelector('ul');  // 🟢 return existing chat box
-            }
-
-            const div = document.createElement('div');
-            div.className = 'dm-window';
-            div.id = id;
-
-            div.innerHTML = `
-        <h4>DM with ${user}</h4>
-        <ul></ul>
-        <input placeholder="Type a message"/>
-        <button>Send</button>
-    `;
-
-            document.body.appendChild(div);
-
-            const input = div.querySelector('input');
-            const button = div.querySelector('button');
-            const chatList = div.querySelector('ul'); // 🟢 capture here
-
-            button.onclick = () => {
-                const msg = input.value.trim();
-                if (msg) {
-                    socket.emit('private_message', { to: user, message: msg });
-                    input.value = '';
-                }
-            };
-
-            return chatList; // 🟢 return the <ul> directly
-        }
-
-
-
-
-    </script>
 </body>
 
 </html>

@@ -1,0 +1,95 @@
+body.lily {
+    background: radial-gradient(ellipse at center, #1a1a2d 0%, #0b0c1a 100%);
+    color: #cbd5ff;
+    font-family: 'Georgia', 'Times New Roman', serif;
+    font-weight: 300;
+    letter-spacing: 0.5px;
+    padding: 30px;
+    background-attachment: fixed;
+    background-size: cover;
+    transition: background 1s ease;
+}
+
+
+body.lily h2,
+body.lily h3,
+body.lily h4 {
+    color: #e7d9ff;
+    text-shadow: 0 0 6px rgba(150, 180, 255, 0.5);
+    font-weight: normal;
+}
+
+body.lily input,
+body.lily button {
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+    font-weight: normal;
+    font-family: inherit;
+    padding: 8px;
+    backdrop-filter: blur(8px);
+    border-radius: 4px;
+}
+
+body.lily button:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: #fff;
+    cursor: pointer;
+}
+
+body.lily #login,
+body.lily #chat {
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background-color: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(12px);
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+body.lily .dm-window {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(200, 200, 255, 0.3);
+    box-shadow: 0 0 20px rgba(180, 200, 255, 0.1);
+    color: #ffffff;
+    backdrop-filter: blur(12px);
+    padding: 12px;
+    border-radius: 10px;
+    max-width: 600px;
+    margin: 20px auto;
+}
+
+body.lily .dm-window ul {
+    background-color: rgba(255, 255, 255, 0.07);
+    border: 1px dashed rgba(255, 255, 255, 0.2);
+    padding: 8px;
+    border-radius: 8px;
+    max-height: 160px;
+    overflow-y: auto;
+    list-style: none;
+    margin-bottom: 12px;
+}
+
+body.lily .dm-window ul li {
+    padding: 6px 10px;
+    background-color: rgba(255, 255, 255, 0.05);
+    margin-bottom: 6px;
+    border-radius: 5px;
+    color: #d5e4ff;
+    font-style: italic;
+}
+
+body.lily::before {
+    content: "";
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    background: repeating-linear-gradient(
+        to bottom,
+        rgba(255, 255, 255, 0.01) 1px,
+        transparent 3px
+    );
+    z-index: 0;
+    pointer-events: none;
+}

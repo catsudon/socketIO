@@ -1,0 +1,67 @@
+/* ───────────────────────────────────────── */
+/* 🌑 CYBERPUNK THEME (default)              */
+/* ───────────────────────────────────────── */
+body.cyberpunk {
+    background-color: #0f0f1a;
+    color: #00ffee;
+    font-family: 'Courier New', monospace;
+    padding: 20px;
+}
+
+body.cyberpunk h2,
+body.cyberpunk h3,
+body.cyberpunk h4 {
+    color: #ff00cc;
+    text-shadow: 0 0 5px #ff00cc;
+}
+
+body.cyberpunk input,
+body.cyberpunk button {
+    background-color: #1a1a2e;
+    border: 1px solid #00ffee;
+    color: #00ffee;
+}
+
+body.cyberpunk button:hover {
+    background-color: #00ffee;
+    color: #0f0f1a;
+    cursor: pointer;
+}
+
+body.cyberpunk #login,
+body.cyberpunk #chat {
+    border: 1px solid #00ffee;
+    background-color: rgba(255, 255, 255, 0.02);
+}
+
+body.cyberpunk #room-list li,
+body.cyberpunk #user-list li {
+    border-left: 2px solid #ff00cc;
+}
+
+body.cyberpunk .dm-window {
+    background-color: rgba(20, 20, 40, 0.9);
+    border: 1px solid #ff00cc;
+    box-shadow: 0 0 10px #ff00cc;
+}
+
+body.cyberpunk .dm-window ul {
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px dashed #00ffee;
+}
+
+/* CRT scanline overlay */
+body.cyberpunk::before {
+    content: "";
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: repeating-linear-gradient(
+        to bottom,
+        transparent,
+        rgba(255, 255, 255, 0.01) 1px,
+        transparent 2px
+    );
+    pointer-events: none;
+    z-index: 9999;
+}

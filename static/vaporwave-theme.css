@@ -1,0 +1,176 @@
+body.vaporwave {
+    background: linear-gradient(135deg, #1b1c34 0%, #20244d 100%);
+    color: #d4f1f9;
+    font-family: 'Courier New', monospace;
+    padding: 20px;
+    background-attachment: fixed;
+    background-size: cover;
+}
+
+body.vaporwave h2,
+body.vaporwave h3,
+body.vaporwave h4 {
+    color: #88f0f9;
+    text-shadow: 0 0 3px #88f0f9, 0 0 6px #635bff;
+}
+
+body.vaporwave input,
+body.vaporwave button {
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid #635bff;
+    color: #d4f1f9;
+    font-weight: bold;
+    backdrop-filter: blur(3px);
+}
+
+body.vaporwave button:hover {
+    background-color: #635bff;
+    color: #fff;
+    cursor: pointer;
+}
+
+body.vaporwave #login,
+body.vaporwave #chat {
+    border: 2px solid #635bff;
+    background-color: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(4px);
+    border-radius: 8px;
+    box-shadow: 0 0 10px #635bff;
+}
+
+body.vaporwave #room-list li,
+body.vaporwave #user-list li {
+    border-left: 3px solid #635bff;
+    padding-left: 8px;
+}
+
+body.vaporwave .dm-window {
+    background-color: rgba(10, 10, 20, 0.9);
+    border: 2px solid #635bff;
+    color: #d4f1f9;
+    padding: 12px;
+    margin: 20px auto;
+    font-size: 14px;
+    box-shadow: 0 0 12px #635bff;
+    border-radius: 10px;
+    backdrop-filter: blur(6px);
+    max-width: 500px;
+}
+
+body.vaporwave .dm-window ul {
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px dashed #635bff;
+    padding: 8px;
+    margin-bottom: 10px;
+    border-radius: 6px;
+    max-height: 150px;
+    overflow-y: auto;
+    list-style: none;
+}
+
+body.vaporwave .dm-window ul li {
+    margin-bottom: 6px;
+    padding: 4px 8px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 5px;
+    color: #d4f1f9;
+    font-weight: normal;
+}
+
+body.vaporwave .dm-window input {
+    width: calc(100% - 90px);
+    padding: 6px;
+    margin-right: 5px;
+    border-radius: 5px;
+    font-family: inherit;
+    border: 1px solid #635bff;
+    background-color: rgba(255, 255, 255, 0.05);
+    color: #d4f1f9;
+}
+
+body.vaporwave .dm-window button {
+    width: 70px;
+    padding: 6px;
+    font-weight: bold;
+    border-radius: 5px;
+    border: 1px solid #635bff;
+    background-color: #635bff;
+    color: white;
+}
+
+body.vaporwave .dm-window button:hover {
+    background-color: #7c84ff;
+    color: #ffffff;
+}
+
+body.vaporwave::before {
+    content: "";
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: repeating-linear-gradient(
+        to bottom,
+        rgba(255, 255, 255, 0.01) 1px,
+        transparent 2px
+    );
+    pointer-events: none;
+    z-index: 9999;
+}
+
+.vaporwave-particles {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.vaporwave-particles .triangle {
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 20px solid rgba(255, 255, 255, 0.1);
+    transform: rotate(0deg);
+    animation: floatTriangle 12s linear infinite;
+}
+
+@keyframes floatTriangle {
+    0% {
+        transform: translateY(110vh) rotate(0deg) scale(0.5);
+        opacity: 0;
+    }
+    20% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-20vh) rotate(360deg) scale(1);
+        opacity: 0;
+    }
+}
+
+
+.vhs-scanlines::before {
+    content: "";
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(
+        to bottom,
+        rgba(255, 255, 255, 0.03) 1px,
+        transparent 3px
+    );
+    pointer-events: none;
+    z-index: 9998;
+    mix-blend-mode: overlay;
+    animation: flicker 1.5s infinite ease-in-out;
+}
+
+@keyframes flicker {
+    0%, 100% { opacity: 0.03; }
+    50% { opacity: 0.1; }
+}
