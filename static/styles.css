@@ -1,0 +1,105 @@
+/* CYBERPUNK RETRO STYLE */
+body {
+    background-color: #0f0f1a;
+    color: #00ffee;
+    font-family: 'Courier New', monospace;
+    padding: 20px;
+}
+
+h2, h3, h4 {
+    color: #ff00cc;
+    text-shadow: 0 0 5px #ff00cc;
+}
+
+input, button {
+    background-color: #1a1a2e;
+    border: 1px solid #00ffee;
+    color: #00ffee;
+    padding: 5px 10px;
+    margin: 5px;
+    font-family: inherit;
+}
+
+button:hover {
+    background-color: #00ffee;
+    color: #0f0f1a;
+    cursor: pointer;
+}
+
+ul {
+    list-style-type: square;
+    padding-left: 20px;
+}
+
+li {
+    margin-bottom: 5px;
+}
+
+#login, #chat {
+    border: 1px solid #00ffee;
+    padding: 15px;
+    margin-top: 15px;
+    background-color: rgba(255, 255, 255, 0.02);
+}
+
+#room-list li, #user-list li {
+    border-left: 2px solid #ff00cc;
+    padding-left: 8px;
+}
+
+.dm-window {
+    background-color: rgba(20, 20, 40, 0.9);
+    border: 1px solid #ff00cc;
+    color: #00ffee;
+    padding: 10px;
+    margin-top: 15px;
+    font-size: 14px;
+    box-shadow: 0 0 10px #ff00cc;
+    width: 300px;
+}
+
+.dm-window ul {
+    max-height: 150px;
+    overflow-y: auto;
+    margin-bottom: 10px;
+    background-color: rgba(255, 255, 255, 0.05);
+    padding: 5px;
+    border: 1px dashed #00ffee;
+}
+
+.dm-window input {
+    width: 70%;
+}
+
+.dm-window button {
+    width: 25%;
+}
+
+::selection {
+    background: #ff00cc;
+    color: #0f0f1a;
+}
+
+a {
+    color: #00ffee;
+}
+
+a:hover {
+    color: #ff00cc;
+}
+
+/* CRT scanline overlay */
+body::before {
+    content: "";
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: repeating-linear-gradient(
+        to bottom,
+        transparent,
+        rgba(255, 255, 255, 0.01) 1px,
+        transparent 2px
+    );
+    pointer-events: none;
+    z-index: 9999;
+}
