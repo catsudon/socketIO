@@ -1,50 +1,62 @@
 <!doctype html>
-<html>
+<html lang="en">
 
 <head>
+    <meta charset="UTF-8">
     <title>Room Chat</title>
     <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+
+    <!-- Theme Styles -->
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='cyberpunk-theme.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='vaporwave-theme.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='lily-theme.css') }}">
-
 </head>
 
+<body>
 
-<body class="">
+    <!-- Theme Toggle -->
+    <button onclick="toggleTheme()" style="float:right; margin: 10px;">Toggle Theme</button>
 
     <div class="container">
-        <button onclick="toggleTheme()" style="float:right;">Toggle Theme</button>
-
         <h2>Room Chat</h2>
         <h3>Active Rooms:</h3>
         <ul id="room-list"></ul>
 
-
+        <!-- Login Form -->
         <div id="login">
             <input id="name" placeholder="Your name" />
             <input id="room" placeholder="Room name" />
             <button onclick="joinRoom()">Join Room</button>
         </div>
 
+        <!-- Main Chat Area -->
         <div id="chat" style="display:none">
             <h3>Chat Room: <span id="room-name"></span></h3>
             <ul id="messages"></ul>
 
-            <input id="message" placeholder="Type message" />
-            <button onclick="sendMessage()">Send</button>
+            <div>
+                <input id="message" placeholder="Type message" />
+                <button onclick="sendMessage()">Send</button>
+            </div>
 
             <h4>Connected Users:</h4>
             <ul id="user-list"></ul>
         </div>
-        
+
+        <!-- DM Tabbed Interface -->
+        <div id="dm-tab-container" style="display:none;">
+            <div id="dm-tabs" class="dm-tabs"></div>
+            <div id="dm-chat-area" class="dm-chat-area"></div>
+        </div>
+    </div>
+
+    <!-- Particle Effects -->
     <div class="particles"></div>
     <div class="vaporwave-particles"></div>
 
+    <!-- App Script -->
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
 
-        <script src="{{ url_for('static', filename='script.js') }}"></script>
-    </div>
 </body>
-
 </html>
