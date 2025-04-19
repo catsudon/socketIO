@@ -12,7 +12,6 @@ window.onload = () => {
     const savedTheme = localStorage.getItem('theme') || 'cyberpunk';
     document.body.classList.remove('cyberpunk', 'vaporwave', 'lily');
     document.body.classList.add(savedTheme);
-    generateParticles();
     socket.emit('request_room_list');
 };
 
@@ -26,22 +25,7 @@ function toggleTheme() {
     body.classList.add(next);
     localStorage.setItem('theme', next);
 
-    document.querySelector('.particles').innerHTML = '';
-    if (next === 'lily') generateParticles();
 }
-
-function generateParticles(count = 40) {
-    const container = document.querySelector('.particles');
-    if (!document.body.classList.contains('lily')) return;
-    for (let i = 0; i < count; i++) {
-        const p = document.createElement('span');
-        p.style.left = Math.random() * 100 + 'vw';
-        p.style.animationDelay = (Math.random() * 20) + 's';
-        p.style.animationDuration = (10 + Math.random() * 10) + 's';
-        container.appendChild(p);
-    }
-}
-
 // ─────────────────────────────────────────
 // 🧠 Room Join + Messages
 // ─────────────────────────────────────────
