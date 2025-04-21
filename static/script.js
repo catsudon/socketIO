@@ -15,6 +15,15 @@ let currentDM = null;
 // RPS modal elements (initialized later)
 let modal, txt, yesBtn, noBtn;
 
+//Bad Word
+const badWords = ["kuy", "fuck", "shit", "bitch", "asshole", "bastard", "dick", "pussy", "slut", "whore", "cunt", "motherfucker", "fucker", "nigga", "nigger", "cock", "tit", "tits", "boobs", "douche", "damn", "crap", "bollocks", "bugger", "wanker", "twat", "prick", "jerkoff", "handjob", "blowjob", "suckmydick"];
+
+function censorText(text) {
+  const regex = new RegExp(badWords.join("|"), "gi"); // สร้าง RegExp จากลิสต์คำหยาบ
+  return text.replace(regex, (match) => "*".repeat(match.length)); // แทนที่คำด้วย '*'
+}
+
+
 // ─────────────────────────────────────────
 // Initial DOM setup: theme & RPS modal
 // ─────────────────────────────────────────
@@ -110,8 +119,10 @@ function quickJoin(selectedRoom) {
 function sendMessage() {
   const input = document.getElementById('message');
   const msg   = input.value.trim();
+  console.log(msg);
   if (!msg) return;
-  socket.emit('message', msg);
+  const censoredMsg = censorText(msg);
+  socket.emit('message', censoredMsg);
   input.value = '';
 }
 
@@ -139,6 +150,7 @@ socket.on('room_list', rooms => {
 
 socket.on('message', msg => {
   const li = document.createElement('li'); li.textContent = msg;
+  li.textContent = censorText(msg); // เซ็นเซอร์ข้อความก่อนแสดง
   document.getElementById('messages').appendChild(li);
 });
 
@@ -191,7 +203,7 @@ function switchDM(user) {
 function renderDM(user) {
   const area = document.getElementById('dm-chat-area'); area.innerHTML = '';
   dmSessions[user].messages.forEach(msg => {
-    const d = document.createElement('div'); d.textContent = msg; area.appendChild(d);
+    const d = document.createElement('div'); d.textContent = censorText(msg); area.appendChild(d);
   });
   const ctrl = document.createElement('div'); ctrl.className = 'dm-message-input';
   const ta = document.createElement('textarea'); ta.rows = 1; ta.placeholder = 'Type...';
@@ -201,14 +213,15 @@ function renderDM(user) {
   rpsBtn.dataset.to = user;
   rpsBtn.onclick = () => { socket.emit('rps_invite', { to: user }); rpsBtn.disabled = true; };
 
-  sendBtn.onclick = () => { const t = ta.value.trim(); if (!t) return; socket.emit('private_message',{to:user,message:t}); ta.value=''; };
+  sendBtn.onclick = () => { const t = ta.value.trim(); if (!t) return; const censoredText = censorText(t); socket.emit('private_message',{to:user,message:censoredText}); ta.value=''; };
   ta.addEventListener('keydown', e => { if (e.key==='Enter'&&!e.shiftKey){ e.preventDefault(); sendBtn.onclick(); }});
   ctrl.append(ta, sendBtn, rpsBtn); area.appendChild(ctrl);
 }
 
 function addDMMessage(user, message) {
   if (!dmSessions[user]) openDM(user);
-  dmSessions[user].messages.push(message);
+  const censoredMessage = censorText(message); // เซ็นเซอร์ข้อความก่อนเพิ่ม
+  dmSessions[user].messages.push(censoredMessage);
   if (currentDM===user) renderDM(user);
 }
 
