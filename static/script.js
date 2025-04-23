@@ -137,16 +137,38 @@ document.getElementById('message').addEventListener('keydown', e => {
 // Socket event handlers: rooms, chat, users
 // ─────────────────────────────────────────
 socket.on('room_list', rooms => {
-  const ul = document.getElementById('room-list'); ul.innerHTML = '';
-  Object.keys(rooms).forEach(rm => {
-    const members = rooms[rm];
-    const li = document.createElement('li'); li.style.marginBottom = '8px';
-    const title = document.createElement('strong');
-    title.textContent = `${rm} (${members.length} user${members.length>1?'s':''})`;
-    title.style.cursor = 'pointer'; title.onclick = () => quickJoin(rm);
-    li.appendChild(title); ul.appendChild(li);
-  });
+    const ul = document.getElementById('room-list');
+    ul.innerHTML = '';
+
+    Object.keys(rooms).forEach(rm => {
+        const members = rooms[rm];
+
+        const li = document.createElement('li');
+        li.style.marginBottom = '12px';
+
+        const title = document.createElement('strong');
+        title.textContent = `${rm} (${members.length} user${members.length > 1 ? 's' : ''})`;
+        title.style.cursor = 'pointer';
+        title.onclick = () => quickJoin(rm);
+
+        li.appendChild(title);
+
+        // 🔽 Add user list under room title
+        const memberList = document.createElement('ul');
+        memberList.style.marginTop = '4px';
+        memberList.style.paddingLeft = '16px';
+
+        members.forEach(user => {
+            const userLi = document.createElement('li');
+            userLi.textContent = user;
+            memberList.appendChild(userLi);
+        });
+
+        li.appendChild(memberList);
+        ul.appendChild(li);
+    });
 });
+
 
 socket.on('message', msg => {
   const li = document.createElement('li'); li.textContent = msg;
